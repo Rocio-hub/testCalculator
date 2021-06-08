@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Deliver to DockerHub') {
             steps {
-                sh "docker build -t frontend-calculator" 
+                sh "docker build . -t roci0055/frontend-calculator" 
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
                 {
                     sh 'docker login -u ${USERNAME} -p {PASSWORD}'
