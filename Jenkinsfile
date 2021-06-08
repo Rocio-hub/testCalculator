@@ -9,7 +9,7 @@ pipeline {
                 sh "docker build . -t roci0055/frontend-calculator" 
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerhubRo', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
                 {
-                    sh 'docker login -u ${USERNAME} -p {PASSWORD}'
+                    sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
                 }
                 sh "docker push roci0055/frontend-calculator" 
             }
