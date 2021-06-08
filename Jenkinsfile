@@ -24,17 +24,17 @@ pipeline {
         }
         stage("Execute system tests") { 
             steps {
-                sh "selenium-side-runner --server http://localhost:4444/wd/hub -c 'browserName=chrome --base-url http://app-test-container test/system/FunctionalTests.side"
+                sh "selenium-side-runner --server http://localhost:1212/wd/hub -c 'browserName=chrome --base-url http://app-test-container test/system/FunctionalTests.side"
             }
         }
     }
     post {
         cleanup { 
             echo "Cleaning the Docker environment"
-            sh script:"docker stop selenium-hub", returnStatus:true
+            sh script:"docker stop seleniumhub", returnStatus:true
             sh script: "docker stop selenium-node-chrome", returnStatus:true
             sh script: "docker stop app-test-container", returnStatus:true
-            sh script: "docker network remove SE", returnStatus:true
+            sh script: "docker network remove NETSEL", returnStatus:true
         }
     }
 }
