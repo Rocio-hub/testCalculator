@@ -14,8 +14,8 @@ pipeline {
         stage('Selenium Grid setup') { 
             steps { 
                 sh "docker network create SEL" 
-                sh "docker run -d --rm -p 6666:4444 --net=SEL --name selenium-hub selenium/hub" 
-                sh "docker run -d --rm --net=SEL -e HUB_HOST=selenium-hub --name selenium-node-chrome" 
+                sh "docker run -d --rm -p 6666:4444 --net=SEL --name seleniumcont selenium/hub" 
+                sh "docker run -d --rm --net=SEL -e HUB_HOST=seleniumcont-hub --name selenium-node-chrome" 
                 sh "docker run -d --rm --net=SEL --name app-test-container roci0055/frontend-calculator" 
             }
         }
@@ -28,7 +28,7 @@ pipeline {
     post {
         cleanup { 
             echo "Cleaning the Docker environment"
-            sh script: "docker stop selenium-hub", returnStatus:true
+            sh script: "docker stop seleniumcont", returnStatus:true
             sh script: "docker stop selenium-node-chrome", returnStatus:true
             sh script: "docker stop app-test-container", returnStatus:true
             sh script: "docker network remove SEL", returnStatus:true
