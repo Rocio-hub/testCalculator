@@ -14,14 +14,14 @@ pipeline {
         stage('Selenium Grid setup') { 
             steps { 
                 sh "docker network create SEL" 
-                sh "docker run -d --rm -p 1212:4444 --net=SEL --name selenium-hub selenium/hub" 
+                sh "docker run -d --rm -p 6666:4444 --net=SEL --name selenium-hub selenium/hub" 
                 sh "docker run -d --rm --net=SEL -e HUB_HOST=selenium-hub --name selenium-node-chrome" 
                 sh "docker run -d --rm --net=SEL --name app-test-container roci0055/frontend-calculator" 
             }
         }
         stage("Execute system tests") { 
             steps {
-                sh "selenium-side-runner --server http://localhost:1212/wd/hub -c 'browserName=chrome --base-url http://app-test-container test/system/FunctionalTests.side"
+                sh "selenium-side-runner --server http://localhost:6666/wd/hub -c 'browserName=chrome --base-url http://app-test-container test/system/FunctionalTests.side"
             }
         }
     }
